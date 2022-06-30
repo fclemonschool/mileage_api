@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/mileage
+    username: root
+    password: mysql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        page-parameter: number
+    mongodb:
+      database: mileage
+      uri: mongodb://mongo:27017/mileage
+      uuid-representation: standard
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

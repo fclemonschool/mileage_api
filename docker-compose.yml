@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  mysql:
+    image: mysql:5.7.38
+    ports:
+      - "3306:3306"
+    volumes:
+      - mileage-mysql-data:/var/lib/mysql
+      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d # 해당 폴더 아래의 create_table.sql 실행
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: mileage
+    restart: always
+
+  mongo:
+    image: mongo:4.2.21
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/data:/data/db
+    restart: always
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: mysql
+      MYSQL_DB: mileage
+    restart: always
+    depends_on:
+      - mysql
+      - mongo
+
+volumes:
+  mileage-mysql-data:
